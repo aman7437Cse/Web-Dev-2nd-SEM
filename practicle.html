@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Result Calculator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #dff6ff; /* Light Blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 450px;
+            background-color: #ffe5b4; /* Light Orange */
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 85%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Student Result Calculator</h1>
+
+    <input type="number" id="numSubjects" placeholder="Enter Number of Subjects">
+    <br>
+
+    <button onclick="generateInputs()">Enter Marks</button>
+
+    <div id="subjects"></div>
+
+    <button onclick="calculateResult()">Calculate Result</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function generateInputs() {
+        let n = document.getElementById("numSubjects").value;
+        let subjectsDiv = document.getElementById("subjects");
+        subjectsDiv.innerHTML = "";
+
+        for (let i = 1; i <= n; i++) {
+            subjectsDiv.innerHTML +=
+                `<input type="number" id="mark${i}" placeholder="Marks of Subject ${i}" min="0" max="100"><br>`;
+        }
+    }
+
+    function calculateResult() {
+        let n = parseInt(document.getElementById("numSubjects").value);
+        let total = 0;
+        let pass = true;
+
+        for (let i = 1; i <= n; i++) {
+            let marks = parseFloat(document.getElementById("mark" + i).value);
+
+            if (marks < 33)
+                pass = false;
+
+            total += marks;
+        }
+
+        let average = total / n;
+        let grade;
+
+        if (average >= 90) grade = "A+";
+        else if (average >= 80) grade = "A";
+        else if (average >= 70) grade = "B";
+        else if (average >= 60) grade = "C";
+        else if (average >= 50) grade = "D";
+        else grade = "F";
+
+        let result = pass ? "PASS" : "FAIL";
+
+        document.getElementById("result").innerHTML =
+            `Total Marks: ${total}<br>
+             Average: ${average.toFixed(2)}<br>
+             Grade: ${grade}<br>
+             Result: ${result}`;
+    }
+</script>
+
+</body>
+</html>
